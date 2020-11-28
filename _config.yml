@@ -26,9 +26,9 @@ plainwhite:
     - post
   # generate social links in footer
   social_links:
-    twitter: 
-    github:  innieminnie
-    linkedIn: 
+    #twitter: 
+    #github:  innieminnie
+    #linkedIn: 
     #rss: rss
     #dribbble: jekyll
     #flickr:   jekyll
