@@ -27,9 +27,7 @@ categories: TDD XCTest UnitTest
 
 - 테스트주도개발 ( 짧은 주기의 반복을 통해 테스트가 개발을 이끌어 나가는 형태의 소프트웨어 개발 프로세스)
 
-![TDD][tdd_sample_screenshot]
-
-[tdd_sample_screenshot]: ../assets/tdd_process.png
+![tdd_sample_screenshot](../assets/tdd_process.png)
 
 
 1. 레드: 실패하는 테스트 작성
@@ -192,9 +190,7 @@ class DesignParkingSystemTests: XCTestCase {
 
 메소드명은 test로 시작해야하며, Example은 테스트하고자하는 내용에 맞게 수정합니다. 또한 테스팅을 위해 XCTAssertEqual등을 비롯한 상황에 맞는 다양한 메소드를 활용합니다.
 
-![TDD][failed_test_case]
-
-[failed_test_case]:../assets/tdd_failed_test_case.png
+![failed_test_case](../assets/tdd_failed_test_case.png)
 
 테스트는 addCar(1) 시, 성공해야하지만(expected = true) , false를 return 하고 있습니다(actual). 이 부분이 앞서 말씀드린 TDD의 "레드" 에 해당합니다.  addCar 메소드에는 구체적인 함수내용을 작성하지 않은 채, 우선 return false를 하고 있습니다. 해당 부분이 실패코드를 작성한 것과 같습니다. 이제 addCar를 문제에 맞게 작성해보겠습니다.
 
@@ -234,9 +230,7 @@ func addCar(_ carType: Int) -> Bool {
 
 코드 수정 후, test를 재실행하면
 
-![TDD][success_test_case]
-
-[success_test_case]:../assets/tdd_success_test_case.png
+![success_test_case](../assets/tdd_success_test_case.png)
 
 와 같이 메소드명 옆에 초록색 체크표시와 함께 성공했다는 메시지가 콘솔창에 출력됩니다
 
@@ -248,9 +242,7 @@ func addCar(_ carType: Int) -> Bool {
 
 TDD의 "블루"단계로,  addCar메소드를 메소드의 실행내용은 변형시키지 않은 채 수정해보겠습니다.
 
-![TDD][refactoring_code]
-
-[refactoring_code]:../assets/tdd_refactoring_case.png
+![refactoring_code]s(../assets/tdd_refactoring_case.png)
 
 이후 테스트케이스 여러개 재실행 시, 전부 정상적으로 작동하는 것을 확인할 수 있습니다.
 
