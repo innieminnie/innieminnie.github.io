@@ -76,7 +76,7 @@ TDD 작성 시, FIRST원칙을 준수하도록 노력하면 보다 나은 TDD �
 
 XCode에서 XCTest를 활용하여 단위테스트를 수행할 수 있습니다. XCTest는 UITest, UnitTest, PerformanceTest 세 종류의 테스트를 지원하지만, UnitTest 구현과정을 대표로 보여드리겠습니다.
 
-https://leetcode.com/problems/design-parking-system/ 의 문제를 샘플로, 풀이 과정을 XCTest를 활용해 TDD를 간단하게 적용해보겠습니다!
+[https://leetcode.com/problems/design-parking-system/](https://leetcode.com/problems/design-parking-system/) 의 문제를 샘플로, 풀이 과정을 XCTest를 활용해 TDD를 간단하게 적용해보겠습니다!
 
 - 문제 요구사항 : 주차 시스템 (Parking System) 을 디자인해라. 주차장은 세가지 크기의 주차공간 big, medium, small을 가지며 각 크기 별로 공간이 할당되는 갯수를 갖는다.
 - <b>class ParkingSystem 의 init(_ big: Int, _ medium: Int, _ small: Int)</b> : Parking System 인스턴스 생성 메소드. 파라미터는 각 사이즈 주차공간의 할당 갯수를 의미한다.
@@ -257,3 +257,7 @@ TDD의 "블루"단계로,  addCar메소드를 메소드의 실행내용은 변�
 #### 더 고민해볼 점
 
 위의 과정은 test 메소드를 여러 개 생성하면 전부 단일적이라 각 test가 시작되는 시점에 새로운 인스턴스가 할당됩니다. 그래서 test의 내용이 전부 독립적일 때는 적용 가능하지만, 예를 들어 addCar 메소드가 처음에는 파라미터로 받는 carType에 대한 공간의 여유가 있어 true를 반환하더라도 지속적으로 메소드를 실행하면 공간이 부족해 false가 발생하는 경우를 test해보고 싶을 때, 단순히 하나의 test안에 XCTAssert~문을 여러 번 실행해야하는지, 아니면 test를 분할해도 서로의 상황을 연결지을 수 있는지  더 학습할 예정입니다.
+
+#### 참고
+[https://nshipster.com/xctestcase/](https://nshipster.com/xctestcase/)
+[https://zeddios.tistory.com/991](https://zeddios.tistory.com/991) (리나가 공유해줘서 도움이 됐어요)
