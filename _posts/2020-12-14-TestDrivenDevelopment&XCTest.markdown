@@ -182,13 +182,9 @@ class DesignParkingSystemTests: XCTestCase {
 
 
 
- func testExample() throws { } 에 테스트코드를 작성합니다. 문제에서는 addCar 메소드에 대한 테스트를 할 것입니다.
-
-
-
 #### 레드
 
-메소드명은 test로 시작해야하며, Example은 테스트하고자하는 내용에 맞게 수정합니다. 또한 테스팅을 위해 XCTAssertEqual등을 비롯한 상황에 맞는 다양한 메소드를 활용합니다.
+class DesignParkingSystemTests의 func testExample() throws {} 에는 테스트코드를 작성합니다. 메소드명은 test로 시작해야하며, test이후 메소드명은 테스트하고자하는 내용에 맞게 수정합니다. 해당 과정에서는 testSuccessAddingCarInParkingSystem()으로 지었습니다. 또한 테스팅을 위해 XCTAssertEqual등을 비롯한 상황에 맞는 다양한 메소드를 활용합니다. 문제에서는 addCar 메소드에 대한 테스트를 할 것입니다.
 
 ![failed_test_case](https://user-images.githubusercontent.com/46582215/102102299-f9034d80-3e6e-11eb-95b7-75fa224d5e6f.png)
 
@@ -234,13 +230,13 @@ func addCar(_ carType: Int) -> Bool {
 
 와 같이 메소드명 옆에 초록색 체크표시와 함께 성공했다는 메시지가 콘솔창에 출력됩니다
 
-해당 부분이 TDD의 "그린"에 해당합니다.
+해당 부분이 TDD의 "그린" 에 해당합니다.
 
 
 
 #### 블루
 
-TDD의 "블루"단계로,  addCar메소드를 메소드의 실행내용은 변형시키지 않은 채 수정해보겠습니다.
+TDD의 "블루" 단계로,  addCar메소드를 메소드의 실행내용은 변형시키지 않은 채 수정해보겠습니다.
 
 ![refactoring_code](https://user-images.githubusercontent.com/46582215/102102545-48e21480-3e6f-11eb-80b9-9382a90d8949.png)
 
@@ -250,7 +246,7 @@ TDD의 "블루"단계로,  addCar메소드를 메소드의 실행내용은 변�
 
 ### 마무리
 
-이로써 TDD의 그린 > 레드 > 블루 의 과정을 XCTest를 활용한 유닛테스트로 간단하게 나타내보았습니다. 위에서는 보편적으로 사용되는 XCTAssertEqual메소드의 사용을 보여주었지만, 해당 과정은 true, false를 return하는 것을 확인해야하는 것으로 보아  XCTAssertEqual보다는 <b>XCTAssertTrue(actual, "it should be true")</b> 메소드를 사용하는 것이 더 적합해 보입니다. 이외에도 다양한 상황에 적용해볼 수 있는 XCTAssert 관련 메소드가 많으니 맞게 활용하면 좋을 것 같습니다!
+이로써 TDD의 레드 > 그린 > 블루 의 과정을 XCTest를 활용한 유닛테스트로 간단하게 나타내보았습니다. 위에서는 보편적으로 사용되는 XCTAssertEqual메소드의 사용을 보여주었지만, 해당 과정은 true, false를 return하는 것을 확인해야하는 것으로 보아  XCTAssertEqual보다는 <b>XCTAssertTrue(actual, "it should be true")</b> 메소드를 사용하는 것이 더 적합해 보입니다. 이외에도 다양한 상황에 적용해볼 수 있는 XCTAssert 관련 메소드가 많으니 맞게 활용하면 좋을 것 같습니다!
 
 
 
