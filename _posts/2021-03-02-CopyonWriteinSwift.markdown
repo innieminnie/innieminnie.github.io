@@ -11,12 +11,13 @@ categories: Swift Optimization CopyonWrite CoW
 4. 사용예시(Custom Value Types)
 
 
-
+---
 ### 개요
 
   Copy-on-Write는 Swift의 Performance를 향상시키는 기술 중 하나입니다. 
   Swift에선 주로 <b>구조체(Structure)를 복사할 때 성능을 향상</b>시킬 때 사용되는 기술로, 크기가 큰 값을 복사하는 상황에서 (예를 들어, 10000개의 elements를 담고 있는 array를 다른 변수에 복사해야하는 경우) 빛을 발하는 기술입니다.
 
+---
 
 
 ### 동작방식
@@ -27,6 +28,7 @@ categories: Swift Optimization CopyonWrite CoW
 
    Swift의 기본 Collection(Array, Set, Dictionary...) 은 내부적으로 Copy-on-Write로 구현되어있다는 점을 유의해야합니다! 사용자가 정의한 타입에 대해선 Copy-on-Write는 함께 고려해야합니다.
 
+---
 
 
 ### 사용예시(Swift의 Collection)
@@ -79,6 +81,7 @@ struct Tree: P {
 
   <b>Array와 같은 Swift의 기본 Collection이 copy-on-write를 지원하는 것은 알고 있으면 유용한 정보이지만, Collection의 활용도가 어느정도가 되느냐에 따라 copy-on-write 기능이 다른 측면과 비교해봤을 때 중요도가 낮아질 수 도 있기에 유의해야합니다.</b>
 
+---
 
 
 ### 사용예시(Custom Value Types)
@@ -145,7 +148,7 @@ var childrenBox = kidsBox
 childrenBox.value.userAge = 5 // 새로운 Ref가 생성되는 시점
 
 ```
-
+---
 
 
 #### 참고:
