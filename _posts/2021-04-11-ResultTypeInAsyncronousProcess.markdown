@@ -5,6 +5,7 @@ date: 2021-04-12 01:37:00
 categories: AsyncronousErrorHandling Result 
 ---
 ---
+
 ## ResultType
 
 ​	Swift5에서부터 도입된 Result Type은 <b>Generic Enumeration</b>으로, success(성공) 또는 failure(실패)를 나타내는 <b>value</b>입니다. 또한 각 case마다 associated value(연관값)을 포함할 수 있습니다.
