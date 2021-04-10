@@ -122,7 +122,7 @@ class APIManager {
 
    
 
-코드로 위의 2번에 대해 더 구체적으로 표현하자면,(https://alisoftware.github.io/swift/async/error/2016/02/06/async-errors/ 의 예시코드를 기반으로 각색하여 작성해보았습니다.)
+코드로 위의 2번에 대해 더 구체적으로 표현하자면,https://alisoftware.github.io/swift/async/error/2016/02/06/async-errors/ 의 예시코드를 기반으로 각색하여 작성해보았습니다.)
 
 ```swift
 enum APIError: Error { 
