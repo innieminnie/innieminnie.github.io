@@ -18,7 +18,7 @@ categories: Prefetching UITableViewDataSourcePrefetching UICollectionViewDataSou
 
 ​	Data Prefetching은 현재 보여지는 cell이 아닌, <b>곧 보여질 cell들</b>을 대상으로 미리 cell의 구성작업을 진행합니다. 밑의 이미지에서 "Prefetched collection view cells"가 prefetching의 대상입니다.
 
-![2021-04-25-01.png](../assets/img/2021-04-25-01.png)
+![2021-04-25-01.png](/assets/img/2021-04-25-01.png)
 
 곧 디스플레이될 셀들의 구성작업이 끝난 후 실제로 디스플레이될 때, 이미 작업이 완료된 셀들이기에 셀이 원하는 정보를 표현하는 데까지 보여주는 시간이 단축되고 스크롤 시, 높은 만족감을 제공할 수 있습니다.
 
@@ -66,7 +66,7 @@ categories: Prefetching UITableViewDataSourcePrefetching UICollectionViewDataSou
 
 - Smooth Scrolling
 
-![2021-04-25-02.png](../assets/img/2021-04-25-02.png)
+![2021-04-25-02.png](/assets/img/2021-04-25-02.png)
 
   
 
@@ -82,15 +82,15 @@ categories: Prefetching UITableViewDataSourcePrefetching UICollectionViewDataSou
 
 
 
-![2021-04-25-03.png](../assets/img/2021-04-25-03.png)
+![2021-04-25-03.png](/assets/img/2021-04-25-03.png)
 
 ​	밑의 세 개의 영역이 각 영역당 하나의 프레임을 나타낸다고 가정했을 때, 체크표시된 부분이 good frame으로 16ms내에 요구작업들을 모두 수행했다는 것을 나타냅니다. 반면 중간의 엑스표시된 부분이 16ms내에 요구작업들(파란색  막대기)을 완성하지 못한 채 다른 frame으로 넘어가는 상황입니다. 이와 같은 상황을 Dropping Frames라 합니다. 
 
 
 
-![2021-04-25-04.png](../assets/img/2021-04-25-04.png)
+![2021-04-25-04.png](/assets/img/2021-04-25-04.png)
 
-![2021-04-25-05.png](../assets/img/2021-04-25-05.png)
+![2021-04-25-05.png](/assets/img/2021-04-25-05.png)
 
 
 
@@ -110,7 +110,7 @@ cell life cycle을 보면 prepareForReuse -> cellForItemAtIndexPath -> willDispl
 
 ​	이런 cell의 life cycle의 미세한 변화가 스크롤 성능변화를 이끌어 주었습니다. 영상의 11:25 부분에 스크롤의 개선을 보여주는데요, 
 
-![2021-04-25-02.png](../assets/img/2021-04-25-02.png)
+![2021-04-25-02.png](/assets/img/2021-04-25-02.png)
 
 앞서 설명한 것과 달리 스크롤을 하면서 62번 이후의 cell이 아직 진입전이지만 63번 cell부터 순차적으로 주르륵 이미 셀이 구성되어서 진입 시 완성된 cell을 보여줍니다. !WoW!
 
