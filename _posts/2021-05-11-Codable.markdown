@@ -1,0 +1,312 @@
+---
+layout: post
+title: "Codable 개념 & OpenWeatherAPI 활용으로 적용해보기"
+date: 2021-05-11 17:48:00
+categories: Codable JSONEncoder JSONDecoder 
+---
+---
+## 목차
+1. [Codable 프로토콜](#codable-프로토콜)
+1. [자동으로 Encode 및 Decode가 되는 경우](#자동으로-encode-및-decode가-되는-경우)
+1. [Encode 혹은 Decode 프로토콜 하나만 준수하기](#encode-혹은-decode-프로토콜-하나만-준수하기)
+1. [CodingKeys 활용하기](#codingkeys-활용하기)
+1. [Encodable 혹은 Decodable에 대해 custom 작업하기](#encodable-혹은-decodable에-대해-custom-작업하기)
+1. [OpenWeatherAPI 활용해보기](#openweatherapi-활용해보기)
+
+많은 프로그램의 작업들은 네트워크 통신이나 주어진 파일을 통해 외부 데이터를 송수신합니다. Swift에선 해당 데이터를 처리하기 위해 Codable 프로토콜을 제공하는데요, 주고받는 데이터가 JSON형식인 경우로 예를 들어 어떻게 처리하는지 알아봅시다.
+
+[Encoding and Decoding Custom Types](https://developer.apple.com/documentation/foundation/archives_and_serialization/encoding_and_decoding_custom_types#overview) 예시를 통해 Codable의 기본활용법을 알아보고, 실제 api를 통해 얻어온 데이터를 Decoding한 경험에 대해서 서술해보겠습니다.
+
+---
+## Codable 프로토콜
+Codable 프로토콜은 Decodable 프로토콜과 Encodable 프로토콜을 함께 갖는 프로토콜입니다. 
+```swift
+typealias Codable = Decodable & Encodable
+```
+<b>Decodable 프로토콜</b>: JSON 형식의 파일을 swift 타입으로 <b>decoding 작업</b>을 가능하게 한다.
+<b>Encodable 프로토콜</b>: Swift 타입을 JSON 형식으로 <b>encoding 작업</b>을 가능하게 합니다.
+
+---
+## 자동으로 Encode 및 Decode가 되는 경우
+Swift의 standard library types에 해당하는 <b>String, Int, Double</b>나, Foundation types에 해당하는 <b>Date, Data, URL 등</b>, Built-in types에 해당하는 <b> Array, Dictionary, Optional</b>은 이미 Codable을 준수하는 타입입니다. 
+
+```swift
+struct Coordinate: Codable {
+    var latitude: Double
+    var longitude: Double
+}
+
+struct Landmark: Codable {
+    var name: String
+    var foundingYear: Int
+    
+    var location: Coordinate
+}
+```
+와 같이 타입 선언된 경우 JSONEncoder 클래스를 통해 encoding, JSONDecoder 클래스를 통해 decoding 작업이 가능합니다. Landmark 타입 내의 Coordinate타입의 변수 location 또한 Coordinate타입이 Codable을 준수하기에 Landmark가 자동으로 Codable 채택하는 것에 대해 무리가 없습니다.
+
+---
+## Encode 혹은 Decode 프로토콜 하나만 준수하기
+경우에 따라 Encoding 작업이 불필요하거나, Decoding 작업이 불필요한 경우엔 Codable프로토콜 채택 대신 Encodable프로토콜을 채택하거나 Decodable프로토콜만을 채택하는 방식으로 진행할 수 있습니다.
+
+---
+## CodingKeys 활용하기
+CodingKeys는 Encode / Decode 할 프로퍼티를 설정 가능케 합니다.
+
+|struct Coffee| JSON Data|
+|-|-|
+|milkType|milk_type|
+예를 들어, json 데이터를 받아와 Coffee 라는 struct로 디코딩 작업을 해주어야하는데 <b>struct A의 프로퍼티 milkType</b>에 할당되는 값과 <b>JSON 데이터의 milk_type 이라는 key 값</b>에 담긴 value를 매칭시켜주고 싶다면, CodingKeys를 통해  프로퍼티명과 json의 키 이름을 연결지을 수 잇습니다.
+
+보통 Swift API Guidline을 따라 CamelCase로 프로퍼티명을 설정하는데, JSON 데이터는 CamelCase로 설정되어있지 않을 경우 매칭지을 때 사용됩니다.
+
+```swift
+struct Landmark: Codable {
+    var name: String
+    var foundingYear: Int
+    var location: Coordinate
+    var vantagePoints: [Coordinate]
+    
+    enum CodingKeys: String, CodingKey {
+        case name = "title"
+        case foundingYear = "founding_date"
+        
+        case location
+        case vantagePoints
+    }
+}
+```
+Encode/Decode하는 타입 내부 프로퍼티로 <b>enum 타입 CodingKeys</b>를 선언하고 <b>"CodingKey"</b> 프로토콜을 채택합니다. 
+case 에 swift측에서 사용할 이름, 할당되는 String 값이 JSON데이터에서 갖고 오는 key명입니다. String값을 할당하지 않는 경우는 프로퍼티명과 key명이 동일한 경우에 해당합니다. 
+
+타입내의 모든 프로퍼티를 CodingKeys 내부에 필수적으로 작성해줄 필요는 없고, JSON파일에서 가져올 값에 대해서만 작성하면됩니다.
+
+---
+## Encodable 혹은 Decodable에 대해 custom 작업하기
+작성한 Swift타입과 JSON데이터의 구조가 불일치하는 경우가 존재할 수 있습니다.
+
+```swift
+struct Coordinate {
+    var latitude: Double
+    var longitude: Double
+    var elevation: Double
+
+    enum CodingKeys: String, CodingKey {
+        case latitude
+        case longitude
+        case additionalInfo
+    }
+    
+    enum AdditionalInfoKeys: String, CodingKey {
+        case elevation
+    }
+}
+```
+Coordinate 타입은 elevation 프로퍼티를 가지며, JSON데이터에서 해당 프로퍼티에 대응하는 값은 additionalInfo라는 곳에 내재되어있기에 이전과 같이 한번에 데이터를 매칭시키는 것이 어렵습니다. 
+
+이를 해결하기 위해 enum AdditionalInfoKeys라는 CodingKey 프로토콜을 준수하는 경우를 추가해주었습니다. 
+
+```swift
+extension Coordinate: Decodable {
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        latitude = try values.decode(Double.self, forKey: .latitude)
+        longitude = try values.decode(Double.self, forKey: .longitude)
+        
+        let additionalInfo = try values.nestedContainer(keyedBy: AdditionalInfoKeys.self, forKey: .additionalInfo)
+        elevation = try additionalInfo.decode(Double.self, forKey: .elevation)
+    }
+}
+```
+
+Decodable 프로토콜 채택 관련 부분을 extension으로 분리시켰고 init(from decoder: Decoder) 내에 보다 구체적으로 decoding 과정을 작성했습니다. init(from decoder: Decoder) 은 required initializer로 Decodable채택시 필수적으로 작성해줍니다. 자동으로 JSON데이터가 매칭되던 경우와의 차이점이네요!
+
+```swift
+let additionalInfo = try values.nestedContainer(keyedBy: AdditionalInfoKeys.self, forKey: .additionalInfo)
+elevation = try additionalInfo.decode(Double.self, forKey: .elevation)
+```
+부분에서 elevation 값을 가져오는 방식을 볼 수 있습니다.
+
+역으로 encoding 을 수작업으로 작성할 경우엔 required method인 encode(to:) 를 통해 작성합니다.
+```swift
+extension Coordinate: Encodable {
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(latitude, forKey: .latitude)
+        try container.encode(longitude, forKey: .longitude)
+        
+        var additionalInfo = container.nestedContainer(keyedBy: AdditionalInfoKeys.self, forKey: .additionalInfo)
+        try additionalInfo.encode(elevation, forKey: .elevation)
+    }
+}
+```
+
+---
+## OpenWeatherAPI 활용해보기
+[현재 위치에 대한 날씨정보 API](https://openweathermap.org/current#current_JSON)를 통해 아래와 같은 데이터를 받아올 수 있습니다.
+
+```json
+{
+  "coord": {
+    "lon": -122.08,
+    "lat": 37.39
+  },
+  "weather": [
+    {
+      "id": 800,
+      "main": "Clear",
+      "description": "clear sky",
+      "icon": "01d"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 282.55,
+    "feels_like": 281.86,
+    "temp_min": 280.37,
+    "temp_max": 284.26,
+    "pressure": 1023,
+    "humidity": 100
+  },
+  "visibility": 16093,
+  "wind": {
+    "speed": 1.5,
+    "deg": 350
+  },
+  "clouds": {
+    "all": 1
+  },
+  "dt": 1560350645,
+  "sys": {
+    "type": 1,
+    "id": 5122,
+    "message": 0.0139,
+    "country": "US",
+    "sunrise": 1560343627,
+    "sunset": 1560396563
+  },
+  "timezone": -25200,
+  "id": 420006353,
+  "name": "Mountain View",
+  "cod": 200
+  }                         
+           
+```
+
+해당 데이터를 Swift 타입으로 매칭시키기 위해 구조체를 설계해보았습니다.
+```swift
+import Foundation
+
+struct CurrentWeatherInformation: Decodable {
+    let geographicCoordinate: GeographicCoordinate
+    let dataTimeCalculation: Double
+    let cityName: String
+    let weathers: [Weather]
+    let temperature: Temperature
+    
+    private enum CodingKeys: String, CodingKey {
+        case geographicCoordinate = "coord"
+        case dataTimeCalculation = "dt"
+        case cityName = "name"
+        case weathers = "weather"
+        case temperature = "main"
+    }
+}
+```
+```swift
+struct GeographicCoordinate: Decodable {
+    let latitude: Double
+    let longitude: Double
+    
+    private enum CodingKeys: String, CodingKey {
+        case latitude = "lat"
+        case longitude = "lon"
+    }
+}
+```
+```swift
+struct Weather: Decodable {
+    let id: Int
+    let main: String
+    let description: String
+    let iconID: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case id, main, description
+        case iconID = "icon"
+    }
+}
+```
+```swift
+struct Temperature: Decodable {
+    let currentMeasurement: Double
+    let minimumMeasurement: Double
+    let maximumMeasurement: Double
+    
+    private enum CodingKeys: String, CodingKey {
+        case currentMeasurement = "temp"
+        case minimumMeasurement = "temp_min"
+        case maximumMeasurement = "temp_max"
+    }
+}
+```
+
+```swift
+let forecastInformation = try JSONDecoder().decode(CurrentWeatherInformation.self, from: receivedData)
+// receivedData는 네트워크 통신을 통해 받아온 data 입니다.
+```
+JSON데이터의 모든 정보가 CurrentWeatherInformation타입에 매칭되어 생성되겠네요! 하지만 데이터 내부에서도 모든 정보를 가져오지 않아도 되는 경우에 대해선 custom하게 decode과정을 만들어주면 됩니다.
+
+예를 들어 JSON파일에서 main 의 temp만 필요하다고 가정해봅시다.
+
+```json
+"main": {
+    "temp": 282.55,
+    "feels_like": 281.86,
+    "temp_min": 280.37,
+    "temp_max": 284.26,
+    "pressure": 1023,
+    "humidity": 100
+  }
+```
+
+변경된 요구사항에 따라 위에서 설계한 구조체를 개선하면 아래와 같습니다.
+```swift
+import Foundation
+
+struct CurrentWeatherInformation {
+    let geographicCoordinate: GeographicCoordinate
+    let dataTimeCalculation: Double
+    let cityName: String
+    let weathers: [Weather]
+    let temperature: Double // Temperature 타입이 아닌 Double 타입으로 변경
+    
+    private enum CodingKeys: String, CodingKey {
+        case geographicCoordinate = "coord"
+        case dataTimeCalculation = "dt"
+        case cityName = "name"
+        case weathers = "weather"
+        case temperatureInfo = "main" // 1차적 분류
+    }
+
+    private enum TemperatureKeys: String, CodingKey {
+        case temperature = "temp" // 원하는 것만 가져오기 위한 설정
+    }
+}
+
+extension CurrentWeatherInformation: Decodable {
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        geographicCoordinate = try values.decode(GeographicCoordinate.self, forKey: .geographicCoordinate)
+        dataTimeCalculation = try values.decode(Double.self, forKey: .dataTimeCalculation)
+        cityName= try values.decode(String.self, forKey: .cityNam)
+        weathers = try values.decode([Weather].self, forKey: .weathers)
+        
+        // 중첩구조이기에 temperatureInfo에 접근 후, temperature 값 추출
+        let temperatureInfo = try values.nestedContainer(keyedBy: TemperatureKeys.self, forKey: .temperatureInfo)
+        temperature = try temperatureInfo.decode(Double.self, forKey: .temperature)
+    }
+}
+```
+
+실제 API를 통한 Decoding 과정을 경험해보면서 <b>"필요한 데이터만 추출하기"</b>에 대해 더 이해해볼 수 있었습니다 :). 
