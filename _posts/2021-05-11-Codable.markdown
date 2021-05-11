@@ -54,9 +54,10 @@ struct Landmark: Codable {
 ## CodingKeys 활용하기
 CodingKeys는 Encode / Decode 할 프로퍼티를 설정 가능케 합니다.
 
-|struct Coffee| JSON Data|
+|struct Coffee|JSON Data|
 |-|-|
 |milkType|milk_type|
+<br>
 예를 들어, json 데이터를 받아와 Coffee 라는 struct로 디코딩 작업을 해주어야하는데 <b>struct A의 프로퍼티 milkType</b>에 할당되는 값과 <b>JSON 데이터의 milk_type 이라는 key 값</b>에 담긴 value를 매칭시켜주고 싶다면, CodingKeys를 통해  프로퍼티명과 json의 키 이름을 연결지을 수 잇습니다.
 
 보통 Swift API Guidline을 따라 CamelCase로 프로퍼티명을 설정하는데, JSON 데이터는 CamelCase로 설정되어있지 않을 경우 매칭지을 때 사용됩니다.
