@@ -37,7 +37,7 @@ categories: ScrollView AutoLayout
 ![2021-05-20-scrollview08](/assets/img/2021-05-20-scrollview08.png)  
 ![2021-05-17-01](/assets/img/2021-05-20-01.png)
 
-스크롤 한번 봅시다!
+스크롤 한번 봅시다!<br>
 ![2021-05-17-02](/assets/img/2021-05-20-02.gif)
 
 ---
