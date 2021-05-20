@@ -36,6 +36,7 @@ categories: ScrollView AutoLayout
 ![2021-05-20-scrollview07](/assets/img/2021-05-20-scrollview07.png)
 ![2021-05-20-scrollview08](/assets/img/2021-05-20-scrollview08.png)  
 ![2021-05-17-01](/assets/img/2021-05-20-01.png)
+
 스크롤 한번 봅시다!
 ![2021-05-17-02](/assets/img/2021-05-20-02.gif)
 
@@ -65,8 +66,8 @@ categories: ScrollView AutoLayout
 (제약조건 다섯가지가 LayoutGuide 기반으로 바뀐것을 유의하세요!)
 
 로 설정할 경우, 동일한 결과를 갖습니다.
-<br>
-:question: <b>왜 Layout Guide를 두 가지로 분리해서 제공할까요</b> :question:
+
+#### ❓왜 Layout Guide를 두 가지로 분리해서 제공할까요❓
 
 ScrollView는 content 내부에 담긴 내용이 기기의 한 화면에 담지 못할 때, <b>유저가 스크롤을 통해 모든 정보를 보는 것을 가능케 한다</b>는 것에 의미를 갖습니다.<br> 
 이를 위해서 content 내부에 모든 내용이 담기도록 content layout guide / frame layout guide를 각각 따로 설정함에 따라, <b>content layout guide</b>로 content에 대한 제약조건에 집중하고(<b>스크롤가능영역</b>)<br> 
