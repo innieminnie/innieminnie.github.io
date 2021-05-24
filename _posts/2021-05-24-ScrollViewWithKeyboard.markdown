@@ -130,11 +130,13 @@ extension ViewController {
     ![2021-05-24-scrollviewkeyboard05](/assets/img/2021-05-24-scrollviewkeyboard05.png)
     - 사용자가 설정한 거리만큼(UIEdgeInsets) scroll view의 가장자리로부터 scroll view내의 content view와의 inset(간격)을 설정할 수 있습니다. (해당 과정에선 UIScrollView.contentInset을 활용하지만, safeArea 또한 contentInset이 있습니다.)
         ![2021-05-24-scrollviewkeyboard10](/assets/img/2021-05-24-scrollviewkeyboard10.png)
-        scrollview의 contentInset의 bottom값을 조정해보겠습니다.<br>ThirdTextField를 tap했을 때입니다.
+        scrollview의 contentInset의 bottom값을 조정해보겠습니다.<br>ThirdTextField를 tap했을 때입니다.<br>
+          
         |UIEdgeInsets.zero|UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardFrame.height, right: 0.0)|UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardFrame.height + 10, right: 0.0)|
         |-|-|-|
         |![2021-05-24-scrollviewkeyboard07](/assets/img/2021-05-24-scrollviewkeyboard07.png)|![2021-05-24-scrollviewkeyboard08](/assets/img/2021-05-24-scrollviewkeyboard08.png)|![2021-05-24-scrollviewkeyboard09](/assets/img/2021-05-24-scrollviewkeyboard09.png)|
-
+          
+        <br>
     ![2021-05-24-scrollviewkeyboard06](/assets/img/2021-05-24-scrollviewkeyboard06.png)
     기존의 scrollIndicatorInsets가 deprecated 되었고 verticalScrollIndicatorInsets와 horizontalScrollIndicatorInsets로 분리되었습니다!<br>
     scrollview의 contentInset이 변경됨에 따라 scrollIndicatorInsets 또한 영향을 받는데요, contentInset의 변화로 추가되는 부분에도 scrollview의 indicator도 표시됩니다. scroll이 안되는 부분에도 indicator를 표시하는 것은 맞지 않으니 contentInset에 따라 scrollIndicatorInsets 또한 맞춰줍니다.<br>
