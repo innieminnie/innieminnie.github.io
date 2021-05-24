@@ -9,33 +9,32 @@ categories: ScrollView AutoLayout
 ## 목차
 1. [기본 ScrollView 구현방식](#기본-scrollview-구현방식)
 1. [Content Layout Guide 와 Frame Layout Guide](#content-layout-guide-와-frame-layout-guide)
-1. [활용하기: 키보드 올라올 때 ScrollView의 위치 조정하기](#활용하기-키보드-올라올-때-scrollview의-위치-조정하기)
 
 ---
 ## 기본 ScrollView 구현방식
 [Auto Layout Guide_Working with Scroll Views](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/WorkingwithScrollViews.html#//apple_ref/doc/uid/TP40010853-CH24-SW1) 에서 ScrollView 활용 절차에 대해서 소개하고 있는데요, 이에 대해 적어보겠습니다.
 
-1. Scene위에 scroll view를 추가해라.
-![2021-05-20-scrollview01](/assets/img/2021-05-20-scrollview01.png)
-1. Scroll view의 "크기 와 위치" 를 정의하기 위해 제약조건을 추가해라.
+1. <b>Scene위에 scroll view를 추가해라.</b>
+![2021-05-20-scrollview01](/assets/img/2021-05-20-scrollview01.png)<br><br>
+1. <b>Scroll view의 "크기 와 위치" 를 정의하기 위해 제약조건을 추가해라.</b>
     - ScrollView를 SuperView에 대해 0/0/0/0 으로 제약조건 설정
 ![2021-05-20-scrollview02](/assets/img/2021-05-20-scrollview02.png)
-![2021-05-20-scrollview03](/assets/img/2021-05-20-scrollview03.png)
-1. Scroll view위에 view를 추가해라. 해당 뷰에 "Content View" 라고 이름을 지어라
-![2021-05-20-scrollview04](/assets/img/2021-05-20-scrollview04.png)
-    >Content View 라고 이름 짓는 것은 View 객체를 네이밍으로 구분짓기 위함이며, Content View 이름 자체가 갖는 의미는 없습니다 :)
-1. Content View 의 top/bottom/leading/trailing을 scroll view의 edge에 맞춰라. Content View는 이제 Scroll View의 content area(스크롤 되어 콘텐츠가 나타나는 영역)에 해당한다.
+![2021-05-20-scrollview03](/assets/img/2021-05-20-scrollview03.png)<br><br>
+1. <b>Scroll view위에 view를 추가해라. 해당 뷰에 "Content View" 라고 이름을 지어라</b>
+![2021-05-20-scrollview04](/assets/img/2021-05-20-scrollview04.png)<br><br>
+    >Content View 라고 이름 짓는 것은 View 객체를 네이밍으로 구분짓기 위함이며, Content View 이름 자체가 갖는 의미는 없습니다 :)<br><br>
+1. <b>Content View 의 top/bottom/leading/trailing을 scroll view의 edge에 맞춰라. Content View는 이제 Scroll View의 content area(스크롤 되어 콘텐츠가 나타나는 영역)에 해당한다.</b>
     - ContentView를 ScrollView(SuperView)에 대해 0/0/0/0 으로 제약조건 설정
-![2021-05-20-scrollview05](/assets/img/2021-05-20-scrollview05.png) 
+![2021-05-20-scrollview05](/assets/img/2021-05-20-scrollview05.png)<br><br>
     >!REMEMBER! 
     Content view는 현재 고정된 크기를 갖지 않는다. 내부의 구성요소에 따라 늘어날 수 있다.  
-1. ✅ (Optional) 수직스크롤만 가능하게하기 - content view’s width와 scroll view’s width를 같게 해라.
-![2021-05-20-scrollview06](/assets/img/2021-05-20-scrollview06.png)  
-1. (Optional) 수평스크롤만 가능하게하기 - content view’s height와 scroll view’s height를 같게 해라.<br><br>
-1. ContentView안에 원하는 content(예를 들어 UILabel) 을 배치시켜라. 안의 구성요소들의 layout와 intrinsic content size에 따라 ContentView의 크기가 정해질것이다.
+1. <b>✅ (Optional) 수직스크롤만 가능하게하기 - content view’s width와 scroll view’s width를 같게 해라.</b>
+![2021-05-20-scrollview06](/assets/img/2021-05-20-scrollview06.png)<br><br>  
+1. <b>(Optional) 수평스크롤만 가능하게하기 - content view’s height와 scroll view’s height를 같게 해라.</b><br><br>
+1. <b>ContentView안에 원하는 content(예를 들어 UILabel) 을 배치시켜라. 안의 구성요소들의 layout와 intrinsic content size에 따라 ContentView의 크기가 정해질것이다.</b>
 ![2021-05-20-scrollview07](/assets/img/2021-05-20-scrollview07.png)
 ![2021-05-20-scrollview08](/assets/img/2021-05-20-scrollview08.png)  
-![2021-05-17-01](/assets/img/2021-05-20-01.png)
+![2021-05-17-01](/assets/img/2021-05-20-01.png)<br><br>
 
 스크롤 한번 봅시다!<br>
 ![2021-05-17-02](/assets/img/2021-05-20-02.gif)
@@ -72,6 +71,3 @@ categories: ScrollView AutoLayout
 ScrollView는 content 내부에 담긴 내용이 기기의 한 화면에 담지 못할 때, <b>유저가 스크롤을 통해 모든 정보를 보는 것을 가능케 한다</b>는 것에 의미를 갖습니다.<br> 
 이를 위해서 content 내부에 모든 내용이 담기도록 content layout guide / frame layout guide를 각각 따로 설정함에 따라, <b>content layout guide</b>로 content에 대한 제약조건에 집중하고(<b>스크롤가능영역</b>)<br> 
 <b>frame layout guide</b>를 통해 <b>스크롤방향</b>과 같은 frame 관련 설정에 집중할 수 있도록 합니다.
- 
- ---
-## 활용하기: 키보드 올라올 때 ScrollView의 위치 조정하기
