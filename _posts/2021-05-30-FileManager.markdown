@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "iOS File System과 FileManager 활용하기"
-date: 2021-05-24
+date: 2021-05-30
 categories: FileSystem FileManager
 ---
 ---
@@ -13,6 +13,7 @@ categories: FileSystem FileManager
 1. [File Existence 확인하기 및 File 생성하기](#file-existence-확인하기-및-file-생성하기)
 1. [File 읽기](#file-읽기)
 1. [File 삭제](#file-삭제)
+
 ---
 ### iOS File System Basic
 유저 및 시스템의 데이터 파일을 영구적으로 저장하는 것은 프로그래밍에서 매우 중요한 영역 중 하나입니다. '파일'과 '디렉토리'의 계층적 구조를 통해서 파일을 관리합니다.<br>
@@ -124,5 +125,5 @@ try FileManager.default.removeItem(at: fileURL)
 
 ---
 참고:<br>
-https://learnappmaking.com/filemanager-files-swift-how-to/#reading-a-file-with-swift<br>
-https://nshipster.com/filemanager/
+<https://learnappmaking.com/filemanager-files-swift-how-to/#reading-a-file-with-swift><br>
+<https://nshipster.com/filemanager/>
