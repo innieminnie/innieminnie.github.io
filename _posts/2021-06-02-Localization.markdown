@@ -15,6 +15,7 @@ categories: Localization Internalization
 1. [Storyboard Localization](#storyboard-localization)
 1. [Numbers Dates Times](#numbers-dates-times)
 1. [더 공부해 볼 내용](#더-공부해-볼-내용)
+
 ---
 ### Internationalization 과 Localization
 Localization(지역화)이란, 기기가 <b>설정된 언어/지역</b>에 따라<br> 앱이 나타내는 <b>언어나 표현방식</b>을 달리하기 위해<br> Xcode에서 지원하고 있는 <b>User Experience를 향상시키는 기능</b>입니다.
@@ -49,6 +50,7 @@ Project의 settings에서 설정합니다.
 추가한 언어에 따라 파일은 localize 가 가능하다라는 과정을 설정해주었습니다. 언어별로 파일이 Localizable.strings 하위에 생성되는 것을 알 수 있습니다.
 
 ![2021-06-02-localization06.png](/assets/img/2021-06-02-localization06.png)
+
 MainStoryboard 파일 또한 기본 스토리보드에 대응하여 언어별로 strings 포맷으로 추가되었어요!
 
 ### 3.String content 지역화 (Localize 하기)
@@ -67,6 +69,7 @@ MainStoryboard 파일 또한 기본 스토리보드에 대응하여 언어별로
 ### Storyboard Localization
 지역화 작업을 하다보면, storyboard의 요소에 직접 접근해야하는 경우가 있습니다. 그때 Main.Storyboard의 하위파일에서 작업을 진행하면 되는데요,
 ![2021-06-02-localization06.png](/assets/img/2021-06-02-localization06.png)
+
 Main.string(Korean)을 예로 들어보겠습니다.
 
 먼저 Storyboard에 UITextField를 추가해보겠습니다.
@@ -93,6 +96,7 @@ Localizable.strings 파일의 설정값이 우선적으로 작동합니다. View
 먼저 PresetNumberStyle을 통해 Decimal 값을 US -> Italy 로 전환해보겠습니다.
 ![2021-06-02-localization15](/assets/img/2021-06-02-localization15.png)
 ![2021-06-02-localization16](/assets/img/2021-06-02-localization16.png)
+
 Italy어로 설정하고 run 시키니  number format이 변경된걸 확인할 수 있었습니다!
 
 #### Dates & Times
