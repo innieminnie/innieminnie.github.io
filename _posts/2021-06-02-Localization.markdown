@@ -2,16 +2,16 @@
 layout: post
 title: "Localization 지역화"
 date: 2021-06-02
-categories: Localization Internalization
+categories: Localization Internationalization
 ---
 ---
 
 ## 목차
 1. [Internationalization 과 Localization](#internationalization-과-localization)
-    - 1. Localizable.strings (Localization 파일) 추가하기
-    - 2. 언어 추가하기
-    - 3. String content 지역화 (Localize 하기)
-    - 4. 지역/언어 설정을 통해 확인하기
+    - Localizable.strings (Localization 파일) 추가하기
+    - 언어 추가하기
+    - tring content 지역화 (Localize 하기)
+    - 지역/언어 설정을 통해 확인하기
 1. [Storyboard Localization](#storyboard-localization)
 1. [Numbers Dates Times](#numbers-dates-times)
 1. [더 공부해 볼 내용](#더-공부해-볼-내용)
