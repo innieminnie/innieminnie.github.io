@@ -67,11 +67,11 @@ ViewModel에 대해 주관적으로 해석해보자면, Model에 대한 Wrapper 
 import Foundation
 
 struct TodoList { // Model
-    let todos: [Todo]
+    var todos: [Todo]
 }
 
-struct TodoListViewModel { //ViewModel
-    let todos: [Todo]
+class TodoListViewModel { //ViewModel
+    var todos: [Todo] = []
 
     func todosCount() -> Int {
         return self.todos.count
@@ -90,8 +90,8 @@ struct Todo: Decodable { // Model
     let description: String
 }
 
-struct TodoViewModel { // ViewModel
-    private let todo: Todo
+class TodoViewModel { // ViewModel
+    private var todo: Todo
 
     init(_ todo: Todo) {
         self.todo = todo
@@ -200,25 +200,25 @@ class TodoTableViewController: UITableViewController {
 ### Observable 적용해보기
 ```swift
 struct Todo: Decodable { // Model
-    let title: String
-    let description: String
-}
-
-struct TodoViewModel { // ViewModel
-    private var todo: Observable <Todo> = Observable(Todo(title: "", description: ""))
-
-    init(_ todo: Todo) {
-        self.todo = todo
-    }
-
-    var title: String {
-        return self.todo.title
+    private var title: String = ""
+    private var description: String = ""
+    
+    mutating func updateTodoTitle(_ title: String) {
+        self.title = title
     }
     
-    var desription: String {
-       return self.todo.description
+    mutating func updateTodoDescription(_ description: String) {
+        self.description = description
     }
+}
 
+class TodoViewModel { // ViewModel
+    var todo: Observable<Todo> = Observable(Todo())
+    
+    func changeTodo(_ title: String, _ description: String) {
+        self.todo.value.updateTodoTitle(title)
+        self.todo.value.updateTodoDescription(description)
+    }
 }
 
 // ...
