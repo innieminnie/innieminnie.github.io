@@ -164,55 +164,56 @@ Product Code와 Test Code의 네트워크 호출 관련 타입이 <b>공통 프�
 
 ### 유닛테스트 작성하기
 
-    ```swift
-    import XCTest
-    @testable import Demo
-    class DemoTests: XCTestCase {
-        var WebService: WebService! 
-        let session = MockURLSession()
-    
-        override func setUp() {
-            super.setUp()
-            WebService = WebService(session: session)
-        }
-    
-        override func tearDown() { 
-            super.tearDown()
-        }
-    
-        func test_getRequestURL() throws {
-            // Given
-            guard let url = URL(string: "https://mockurl") else {
-                fatalError("URL error")
-            }
-        
-            // When
-            webService.get(url: url) { (data, response) in
-                //data 가공작업
-            }
-        
-            // Then
-            XCTAssert(session.mockURL == url)
-        }   
-    
-        func test_checkResumeCall() {
-            // Given
-            let dataTask = MockURLSessionDataTask()
-            session.mockDataTask = dataTask
-            guard let url = URL(string: "https://mockurl") else {
-                fatalError("URL error")
-            }
+```swift
+import XCTest
+@testable import Demo
+class DemoTests: XCTestCase {
+    var WebService: WebService! 
+    let session = MockURLSession()
 
-            // When
-            webService.get(url: url) { (success, response) in
-                //data 가공작업
-            }
-            
-            // Then
-            XCTAssert(dataTask.mockResumeCalled)
-        }
+    override func setUp() {
+        super.setUp()
+        WebService = WebService(session: session)
     }
-    ```
+
+    override func tearDown() { 
+        super.tearDown()
+    }
+
+    func test_getRequestURL() throws {
+        // Given
+        guard let url = URL(string: "https://mockurl") else {
+            fatalError("URL error")
+        }
+    
+        // When
+        webService.get(url: url) { (data, response) in
+            //data 가공작업
+        }
+    
+        // Then
+        XCTAssert(session.mockURL == url)
+    }   
+
+    func test_checkResumeCall() {
+        // Given
+        let dataTask = MockURLSessionDataTask()
+        session.mockDataTask = dataTask
+        guard let url = URL(string: "https://mockurl") else {
+            fatalError("URL error")
+        }
+
+        // When
+        webService.get(url: url) { (success, response) in
+            //data 가공작업
+        }
+        
+        // Then
+        XCTAssert(dataTask.mockResumeCalled)
+    }
+}
+```
+
 ---
 ### 마무리
 간단하게 URL값을 체킹하거나, resume()이 호출되는 경우에 대해 UnitTest를 작성해보았습니다. 
