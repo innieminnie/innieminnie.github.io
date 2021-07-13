@@ -29,13 +29,13 @@ categories: XCTest TDD TestDouble DependencyInjection
 
 ---
 ### Test Double와 Dependency Injection
-- Test Double 이란?
+- <b>Test Double 이란?</b>
 
 실제 네트워킹 상황과 유사한 환경을 조성하기 위해, Test Double에 대해 간단하게 짚고 넘어가보겠습니다. 현재 문제 상황과 동일하게 <b>테스트하려는 객체와 관련된 객체를 사용할 때, 해당 객체와 유사하게 만드는 것</b> 이 포인트입니다. 
     
-대표적으로 이러한 가짜 객체의 종류가 5가지로 <b>Dummy, Stub, Spy, Mock, Fake</b>가 사용됩니다. 5가지의 구체적인 차이점에 대해선 https://woowacourse.github.io/tecoble/post/2020-09-19-what-is-test-double/ 에 설명되어 있으니 읽어보시면 좋을 것 같아요! 
+대표적으로 이러한 가짜 객체의 종류가 5가지로 <b>Dummy, Stub, Spy, Mock, Fake</b>가 사용됩니다. 5가지의 구체적인 차이점에 대해선 <https://woowacourse.github.io/tecoble/post/2020-09-19-what-is-test-double/> 에 설명되어 있으니 읽어보시면 좋을 것 같아요! 
 
-- Dependency Injection 이란?
+- <b>Dependency Injection 이란?</b>
 
 현 상황에서 사용할 테스트더블의 종류는 Mock입니다. 가짜 네트워크 호출을 통해 예측되는 값을 설정해주어야 하고, 값에 따라 행위가 달라질 수 있기 때문입니다.
 
@@ -47,10 +47,8 @@ Product Code와 Test Code의 네트워크 호출 관련 타입이 <b>공통 프�
 
 - URLSessionProtocol을 구현한다.
 - MockURLSession을 구현한다.(URLSession의 동작을 모방한 가짜 객체)
-
 - URLSession이 URLSessionProtocol을 채택한다. 
     > 네트워크 호출 시 URLSession.shared.dataTask ~를 수행한다.
-
 - MockURLSession이 URLSessionProtocol을 채택한다. 
     > 네트워크 호출 시 MockURLSession.dataTask~ 를 수행한다.
     > dataTask ( return 값이 URLSessionDataTask ) 또한 MockURLSessionDataTask() 를 구현하여 활용한다.
@@ -82,9 +80,8 @@ Product Code와 Test Code의 네트워크 호출 관련 타입이 <b>공통 프�
     ---
     - URLSessionProtocol와 URLSessionDataTaskProtocol 구현하기
 
-    - dataTask 메소드는 URLSessionDataTask를 return 하기에, 프로토콜의 메소드는 URLSessionDataTaskProtocol을 return 합니다.
-
-    - URLSessionDataTask는 resume()을 실행합니다. 이를 동일하게 구현하기 위해 URLSessionDataTaskProtocol 내에도 resume() 메소드를 선언해줍니다.
+        - dataTask 메소드는 URLSessionDataTask를 return 하기에, 프로토콜의 메소드는 URLSessionDataTaskProtocol을 return 합니다.
+        - URLSessionDataTask는 resume()을 실행합니다. 이를 동일하게 구현하기 위해 URLSessionDataTaskProtocol 내에도 resume() 메소드를 선언해줍니다.
 
     ```swift
     protocol URLSessionProtocol { 
@@ -96,10 +93,11 @@ Product Code와 Test Code의 네트워크 호출 관련 타입이 <b>공통 프�
 
     ---
     -  URLSession 과 URLSessionDataTask의 Protocol 채택에 따른 준수사항 구현하기
+
     ```swift
     extension URLSession: URLSessionProtocol {
-    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol {
-        return dataTask(with: request, completionHandler: completionHandler) as URLSessionDataTask
+        func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol {
+            return dataTask(with: request, completionHandler: completionHandler) as URLSessionDataTask
         }
     }
 
@@ -139,6 +137,7 @@ Product Code와 Test Code의 네트워크 호출 관련 타입이 <b>공통 프�
         }
     }
     ```
+
     ---
     - URLSessionProtocol 구현 이후, WebService 타입의 변화
     ```swift
@@ -218,10 +217,10 @@ Product Code와 Test Code의 네트워크 호출 관련 타입이 <b>공통 프�
 ### 마무리
 간단하게 URL값을 체킹하거나, resume()이 호출되는 경우에 대해 UnitTest를 작성해보았습니다. 
 
-코드 참고: https://masilotti.com/testing-nsurlsession-input/
+코드 참고: <https://masilotti.com/testing-nsurlsession-input/>
 
 이에 더해서 JSON데이터를 파싱해서 가져오는 상황에 대해서도 추가적으로 가능합니다. 샘플 데이터를 Data 타입으로 선언해주고, webService.get(url: url) { ~ } 메소드 내에서 XCT메서드를 통해 확인할 수 있습니다. 이와 관련된 글은 
-https://techblog.woowahan.com/2704/ 에서 확인해보실 수 있습니다. 개인적으로 많은 도움이 됐구요! 
+<https://techblog.woowahan.com/2704/> 에서 확인해보실 수 있습니다. 개인적으로 많은 도움이 됐구요! 
 
 Test Double을 활용한 Unit Test에 대해 더 이해해 볼 수 있었고, 
 어렵게 느껴졌던 Dependency Injection 개념을 Protocol을 통해 쉽게 접근할 수 있다는 것을 느꼈습니다. Protocol이 제공해주는 확장성을 실감할 수 있었어요! 이상입니다 :)
