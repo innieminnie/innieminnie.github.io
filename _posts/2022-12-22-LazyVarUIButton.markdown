@@ -2,7 +2,7 @@
 layout: post
 title: "UIButton을 lazy var로 선언해야 하는 이유"
 date: 2022-12-22 18:00:00
-categories: lazyvar UIButton Initialization TargetAction 
+categories: UIButton Initialization Lazyvar
 ---
 ---
 
