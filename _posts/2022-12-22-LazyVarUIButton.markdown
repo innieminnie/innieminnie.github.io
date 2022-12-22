@@ -5,12 +5,12 @@ date: 2022-12-21
 categories: UIButton Initialization LazyVar
 ---
 
-# 목차
- - 일반적인 UI Component 정의
- - Private let 으로 UIButton을 선언하면
- - Lazy var button여야 하는 이유
- - Swift Initialization
- - Summary
+
+[일반적인 UI Component 정의](#일반적인-ui-component-정의)
+[private let 으로 UIButton을 선언하면](#private-let-으로-uibutton을-선언하면)
+[Lazy var button여야 하는 이유](#lazy-var-button여야-하는-이유)
+[Swift Initialization](#swift-initialization)
+[Summary](#summary)
 
 ---
 # 일반적인 UI Component 정의
