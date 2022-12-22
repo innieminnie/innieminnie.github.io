@@ -4,15 +4,7 @@ title: "UIButton을 lazy var로 선언해야 하는 이유"
 date: 2022-12-22 18:00:00
 categories: UIButton Initialization LazyVar
 ---
-
-## 목차
-- [일반적인 UI Component 정의](#일반적인-ui-component-정의)
-- [Private let 으로 UIButton을 선언하면](#private-let-으로-uibutton을-선언하면)
-- [Lazy var button여야 하는 이유](#lazy-var-button여야-하는-이유)
-- [Swift Initialization](#swift-initialization)
-    -  Two Phase Initialization
-    -  Phase 1 / Phase 2 구체적인 과정
-- [Summary](#summary)
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
 
 ---
 # 일반적인 UI Component 정의
