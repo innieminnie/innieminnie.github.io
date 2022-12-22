@@ -2,18 +2,17 @@
 layout: post
 title: "UIButton을 lazy var로 선언해야 하는 이유"
 date: 2022-12-22 18:00:00
-categories: UIButton Initialization Lazyvar
----
+categories: UIButton Initialization LazyVar
 ---
 
 ## 목차
-[일반적인 UI Component 정의](#일반적인-ui-component-정의)
-[Private let 으로 UIButton을 선언하면](#private-let-으로-uibutton을-선언하면)
-[Lazy var button여야 하는 이유](#lazy-var-button여야-하는-이유)
-[Swift Initialization](#swift-initialization)
+- [일반적인 UI Component 정의](#일반적인-ui-component-정의)
+- [Private let 으로 UIButton을 선언하면](#private-let-으로-uibutton을-선언하면)
+- [Lazy var button여야 하는 이유](#lazy-var-button여야-하는-이유)
+- [Swift Initialization](#swift-initialization)
     -  Two Phase Initialization
     -  Phase 1 / Phase 2 구체적인 과정
-[Summary](#summary)
+- [Summary](#summary)
 
 ---
 # 일반적인 UI Component 정의
