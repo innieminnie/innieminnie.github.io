@@ -5,6 +5,7 @@ date: 2022-12-22 18:00:00
 categories: lazyvar UIButton Initialization TargetAction 
 ---
 ---
+
 ## 목차
 [일반적인 UI Component 정의](#일반적인-ui-component-정의)
 [Private let 으로 UIButton을 선언하면](#private-let-으로-uibutton을-선언하면)
