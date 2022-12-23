@@ -72,32 +72,32 @@ lazy var를 사용하면, button이 사용되기 직전에 정의 코드가 실�
 # Swift Initialization
 참고한 스택오버플로우에서 swift의 initialization phase1 과 phase2를 설명해주고 있기에 initailization 페이지에 가서 확인해보았다.
 
- ## Two Phase Initialization
- Class 초기화는 2번의 과정에 걸쳐 진행된다.
+## Two Phase Initialization
+Class 초기화는 2번의 과정에 걸쳐 진행된다.
 
- <b>Phase 1</b> - 각 저장 프로퍼티는 class가 설정한 초깃값이 할당된다.<br>
- <b>Phase 2</b> - Phase 1을 거친 저장 프로퍼티들을 커스터마이징 할 수 있다 (새 인스턴스가 프로퍼티를 사용하기 전에).
+<b>Phase 1</b> - 각 저장 프로퍼티는 class가 설정한 초깃값이 할당된다.<br>
+<b>Phase 2</b> - Phase 1을 거친 저장 프로퍼티들을 커스터마이징 할 수 있다 (새 인스턴스가 프로퍼티를 사용하기 전에).
 
- 이 과정은 initialization(초기화)의 안정성을 높인다. 
+이 과정은 initialization(초기화)의 안정성을 높인다. 
 
- Property 값들이 초기화 되기 이전에 접근되는 것을 막아준다. 
+Property 값들이 초기화 되기 이전에 접근되는 것을 막아준다. 
 
- 또한 다른 initializer에 의해 다른 값이 setting 되는 것으로부터 예방한다.
+또한 다른 initializer에 의해 다른 값이 setting 되는 것으로부터 예방한다.
 
- ## Phase 1 / Phase 2 구체적인 과정
-  ### Phase 1
-  - designated / convenience initializer 가 class에 호출된다.
-  - 해당 class의 새 instance를 위한 메모리가 할당된다. 메모리는 아직 초기화되지 않았다. 영역만 할당된 상태.
-  - designated initializer 가 class의 모든 저장프로퍼티들이 값이 있는지 체크한다. 그러면 저장프로퍼티들을 위한 메모리가 초기화된다.
-  - designated initializer는 저장 프로퍼티들에 대해 같은 일(메모리 확보)을 수행하도록 superclass initializer에게 위임한다.
-  - 이 과정 (class inheritance chain)은  chain의 끝부분에 다달을 때까지 계속된다.
-  - final class까지 과정을 다하면, 모든 저장프로퍼티들은 값을 지니고 있음이 보장된다. 인스턴스의 메모리는 완전히 초기화 완료된다.
+## Phase 1 / Phase 2 구체적인 과정
+### Phase 1
+- designated / convenience initializer 가 class에 호출된다.
+- 해당 class의 새 instance를 위한 메모리가 할당된다. 메모리는 아직 초기화되지 않았다. 영역만 할당된 상태.
+- designated initializer 가 class의 모든 저장프로퍼티들이 값이 있는지 체크한다. 그러면 저장프로퍼티들을 위한 메모리가 초기화된다.
+- designated initializer는 저장 프로퍼티들에 대해 같은 일(메모리 확보)을 수행하도록 superclass initializer에게 위임한다.
+- 이 과정 (class inheritance chain)은  chain의 끝부분에 다달을 때까지 계속된다.
+- final class까지 과정을 다하면, 모든 저장프로퍼티들은 값을 지니고 있음이 보장된다. 인스턴스의 메모리는 완전히 초기화 완료된다.
 
-  ### Phase 2
-  - Phase 1 진행방향의 역방향으로 다시 chain을 타고 내려온다. 내려오면서 각각의 designated initializer 는 인스턴스를 customizing할 옵션사항을 지니고 있다. Initializer는 이제 self에 접근 가능하고, 프로퍼티를 수정하거나 / instance method를 호출하거나 할 수 있다. 
+### Phase 2
+- Phase 1 진행방향의 역방향으로 다시 chain을 타고 내려온다. 내려오면서 각각의 designated initializer 는 인스턴스를 customizing할 옵션사항을 지니고 있다. Initializer는 이제 self에 접근 가능하고, 프로퍼티를 수정하거나 / instance method를 호출하거나 할 수 있다. 
   - chain에 있는 convenience initializer 또한 인스턴스를 customizing 하거나 self에 접근하여 원하는 작업을 수행할 수 있다.
 
- > Phase 1은 일단 저장프로퍼티들의 값을 확인하면서 메모리 영역을 확보하는 작업 수행<br>Phase 2는 조상 class부터 내려오면서 designated / convenience initializer 작업 진행하면서 customizing 가능.
+> Phase 1은 일단 저장프로퍼티들의 값을 확인하면서 메모리 영역을 확보하는 작업 수행<br>Phase 2는 조상 class부터 내려오면서 designated / convenience initializer 작업 진행하면서 customizing 가능.
 
 ---
 # Summary
