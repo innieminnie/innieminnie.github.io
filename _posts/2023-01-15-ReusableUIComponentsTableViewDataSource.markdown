@@ -8,7 +8,7 @@ categories: Reusable UIComponent TableViewDataSource
 
 ### 목차
 - [프로젝트의 두 개의 유사한 화면](#프로젝트의-두-개의-유사한-화면)
-- [WorkoutSelectionVC 운동종목추가역할 먼저 수정하기](#workoutlistvc-운동종목추가역할-먼저-수정하기)
+- [WorkoutSelectionVC 운동종목추가역할 먼저 수정하기](#workoutselectionvc-운동종목추가역할-먼저-수정하기)
 - [WorkoutListVC 운동종목목록도 바꿔주기](#workoutlistvc-운동종목목록도-바꿔주기)
 - [Protocol과 Extension 활용해서 공통데이터 한 번 더 묶어보기](#protocol과-extension-활용해서-공통데이터-한-번-더-묶어보기)
 - [Summary](#summary)
