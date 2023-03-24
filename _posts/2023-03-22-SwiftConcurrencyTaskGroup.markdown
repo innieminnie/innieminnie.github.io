@@ -6,22 +6,17 @@ categories: Operation Concurrency Task TaskGroup
 ---
 ---
 
-## Intro.
-<center>
+# Intro.
 이전에 비동기프로그래밍을 학습하면서 진행했던 BankManager 프로젝트를 SwiftConcurrency를 적용한 방식으로 리팩토링해보았다.<br>
 
 프로젝트는 콘솔에서 프로그램 진행을 시작하면, 랜덤 수의 은행고객들이 생성되어 은행에서 고객들의 업무를 비동기로 처리하는 것이다.<br>
 업무는 크게 예금 / 대출 로 분류되며 각각 진행시간이 다르다.<br>
-</center>
 
 ---
 # 1. 기존 Operation / OperationQueue를 활용한 구현
-<center>
 ClientOperation (Operation 객체) / ClientOperationQueue(Bank가 queue 생성 및 설정하여 활용한다)
-</center>
 
 ## 1-1. ClientOperation
-<center>
 ClientOperation은 생성 시, 아래의 properties를 갖는다.
 
   - waitingNumber: Int? // 대기번호
@@ -79,10 +74,8 @@ ClientOperation의 clientBusiness에 따라 Thread.sleep의 수행시간을 다�
       }
     }
   ```
-</center>
 
 ## 1-2. ClientOperationQueue
-<center>
 ClientOperation의 main()을 수행할 ClientOperationQueue 설정 부분을 작성한다.
 
   ```swift
@@ -110,20 +103,16 @@ ClientOperation의 main()을 수행할 ClientOperationQueue 설정 부분을 작
 
 
 ClientOperation들은 동시수행이 가능한 3개의 thread에서 자리가 생기면 자신의 업무를 수행할 것이다.<br>이때 thread가 작업을 수행하는 순서는 servicePriority에 기반한다.
-</center>
 
 ---
 # 2. Swift Async/Await을 활용한 Refactoring
-<center>
 ClientOperation은 Operation의 객체가 아닌 Custom Type으로 변경되었다.<br>
 
 변경됨에 따라 Operation의 속성 queuePriority는 TaskPriority타입으로 변경됨. 비동기 동작은 Task를 기준으로 이루어진다.<br>
 
 실행 작업내용을 담는 main() 메소드는 execute() 라는 custom function으로 바뀐다. 각 ClientOperation 타입의 인스턴스들의 execute는 비동기 호출되어야한다. 업무처리과정은 순서에 맞춰 하나하나가 끝날 때까지 기다리면서 수행하는 것이 아니라, 수행가능한 여러 thread에서 동시다발적으로 수행되어야 하기 때문이다.<br>
-</center>
 
 ## 2-1. Async Await 기본 사용법
-<center>
 메서드 선언부 마지막에 <b>async</b> 를 기입하고,<br>
 
 함수 내용부에선 작업이 끝나기를 기다리는 부분 앞에 <b>await</b> 를 기입한다.
@@ -182,11 +171,8 @@ ClientOperation은 Operation의 객체가 아닌 Custom Type으로 변경되었�
   - operateBusiness와 handleDeposit/LoanBusiness 또한 비동기처리를 담고 있기에 async를 메소드이름 뒤에 붙이고, 에러처리 또한 execute에서 하고 있기에 에러를 throw할 수 있다. 따라서 <b>async throws</b> 라고 메소드 선언 시 작성하고 <b>try await</b>를 비동기가 발생하는 곳 앞에 작성한다. async가 await와 상응하듯, throws는 try와 상응한다.
   - <b>1. execute > 2. operateBusiness > 3. handleDepositBusiness / handleLoadBusiness</b> 순으로 호출되는데, handleDepositBusiness / handleLoadBusiness 의 Task.sleep이 async 타입메서드이므로 execute와 operateBusiness 또한 async throws를 선언하여 비동기코드가 발생하는 영역이라는 표시를 해줘야한다.
   - 현재는 ClientOperation 내부에서 async throws를 연쇄적으로 작성해줘야하는 부분에 대해 이야기했지만, ClientOperation 외부에서 execute를 실행하는 곳에서도 async throws를 작성해줘야한다.
- 
-</center>
 
 ## 2-2. TaskGroup 활용하기
-<center>
 ClientOperation의 비동기 작업 내용을  async / await를 활용하여 refactor했다면,<br> 다음은 ClientOperation이 동작하는 영역을 설정하는 곳을 refactor 해야한다.<br> 기존에는 Bank에서 OperationQueue를 생성 및 설정하여 queue에 Operation을 추가하면 되었다.<br>
 
 우선 Task와 Task Group은,<br>
@@ -219,4 +205,3 @@ TaskGroup에서 생성되는 Child task는 동시적으로 동작하고, TaskGro
 따라서 기존 OperationQueue에서 Operation들이 각자 자신의 업무를 수행하고 끝내는 방식을 대체할 수 있다. 간단화하면 operation는 task로, operationqueue는 taskgroup 으로 이동한 것이다.<br>
 
 TaskGroup을 사용할 때, child tasks의 return type이 전부 동일해야한다. 위 코드에서 withTaskGroup에서 return type은 Void로 해당 task group에 추가되는 모든 child tasks는 Void return형을 갖는다.<br>
-</center>
