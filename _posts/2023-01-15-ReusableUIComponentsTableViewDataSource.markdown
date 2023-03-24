@@ -8,7 +8,7 @@ categories: Reusable UIComponent TableViewDataSource
 
 ### 목차
 - [프로젝트의 두 개의 유사한 화면](#프로젝트의-두-개의-유사한-화면)
-- [WorkoutSelectionVC 운동종목추가역할 먼저 수정하기](#workoutlistvc-운동종목추가역할-먼저-수정하기)
+- [WorkoutSelectionVC 운동종목추가역할 먼저 수정하기](#workoutselectionvc-운동종목추가역할-먼저-수정하기)
 - [WorkoutListVC 운동종목목록도 바꿔주기](#workoutlistvc-운동종목목록도-바꿔주기)
 - [Protocol과 Extension 활용해서 공통데이터 한 번 더 묶어보기](#protocol과-extension-활용해서-공통데이터-한-번-더-묶어보기)
 - [Summary](#summary)
@@ -23,7 +23,7 @@ categories: Reusable UIComponent TableViewDataSource
 
 같은 데이터를 표시하는 TableView를 사용하고 있고, cell을 tap할 경우에 행하는 액션에서 차이가 있다. 두 화면에 대해 비교한 걸 정리해보자면,
 
-<b>공통점</b>:  TableView에 표시하는 데이터 목록
+<b>공통점</b>:  TableView에 표시하는 데이터 목록<br>
 <b>차이점</b>:
   - 운동종목추가뷰컨은, cell의 multiselection이 가능하다.(선택한 종목을 운동계획에 추가한다.)<br>운동목록뷰컨은, 1개의 cell만 selectable(선택한 운동종목에 대한 설정값을 보여준다.)<br><br> 
 
@@ -35,7 +35,7 @@ categories: Reusable UIComponent TableViewDataSource
 ---
 # WorkoutSelectionVC 운동종목추가역할 먼저 수정하기
 
-통으로 사용하는 WorkoutTableView 먼저 만든 후, 각각의 뷰컨트롤러에서 생성하는 UITableView를 WorkoutTableView로 변경했다.<br>
+공통으로 사용하는 WorkoutTableView 먼저 만든 후, 각각의 뷰컨트롤러에서 생성하는 UITableView를 WorkoutTableView로 변경했다.<br>
 WorkoutTableView는 간단한 이니셜라이저와 등록할 Cell ( WorkoutTableViewCell ) 로 통일시켰다.
 
 ```swift
@@ -97,30 +97,30 @@ WorkoutListVC도 똑같은 데이터를 사용하기에, 위에서 만든 Workou
 
 내 프로젝트에선 해당 VC에서 '검색을 하고 있는 경우' 에는 검색결과에 따라 section / row 가 달라져서 해당 VC에서도 조건에 따른 분기가 생긴다.<br> 따라서 DataSource부분에 조건탐색 과정이 들어가야하므로 해당 UITableViewDataSource가 검색중인지 감지해야한다.<br>
 - 기존
-기존에는 WorkoutListVC 에서 아래와 같이 isSearching을 numberOfRowsInSection, cellForRowAt과 같은 곳에서 확인했다.
-```swift
- private var isSearching: Bool {
-     let isSearchBarActive = self.navigationItem.searchController?.isActive ?? false
-     let isSearchBarEmpty = self.navigationItem.searchController?.searchBar.text?.isEmpty ?? false
-     return isSearchBarActive && !isSearchBarEmpty
- }
-```
+  기존에는 WorkoutListVC 에서 아래와 같이 isSearching을 numberOfRowsInSection, cellForRowAt과 같은 곳에서 확인했다.
+  ```swift
+  private var isSearching: Bool {
+      let isSearchBarActive = self.navigationItem.searchController?.isActive ?? false
+      let isSearchBarEmpty = self.navigationItem.searchController?.searchBar.text?.isEmpty ?? false
+      return isSearchBarActive && !isSearchBarEmpty
+  }
+  ```
 <br>
 
 - 변경
-isSearching에 대한 정보를 WorkoutListTableViewDataSource가 알고 있어야하므로, UISearchBarDelegate 프로토콜을 채택하여 해당 부분에서 isSearching 스위칭이 발생하도록 개선했다.
+  isSearching에 대한 정보를 WorkoutListTableViewDataSource가 알고 있어야하므로, UISearchBarDelegate 프로토콜을 채택하여 해당 부분에서 isSearching 스위칭이 발생하도록 개선했다.
 
-```swift
-extension WorkoutListDataSource: UISearchBarDelegate {
-  func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-    self.isSearching = false
-  }
+  ```swift
+  extension WorkoutListDataSource: UISearchBarDelegate {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+      self.isSearching = false
+    }
   
-  func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-    self.isSearching = true
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+      self.isSearching = true
+    }
   }
-}
-```
+  ```
 
 그리고 WorkoutListDataSource에 isSearching(Bool)와 searchingList([운동종목])을 프로퍼티로 넣고<br>
 
