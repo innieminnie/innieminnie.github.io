@@ -11,10 +11,11 @@ categories: Operation Concurrency Task TaskGroup
 
 프로젝트는 콘솔에서 프로그램 진행을 시작하면, 랜덤 수의 은행고객들이 생성되어 은행에서 고객들의 업무를 비동기로 처리하는 것이다.
 업무는 크게 예금 / 대출 로 분류되며 각각 진행시간이 다르다.
-
+</center>
 
 # 1. 기존 Operation / OperationQueue를 활용한 구현
 
+<center>
 ClientOperation (Operation 객체) / ClientOperationQueue(Bank가 queue 생성 및 설정하여 활용한다)
 
 
@@ -116,9 +117,11 @@ ClientOperation의 main()을 수행할 ClientOperationQueue 설정 부분을 작
 
 
 ClientOperation들은 동시수행이 가능한 3개의 thread에서 자리가 생기면 자신의 업무를 수행할 것이다.<br>이때 thread가 작업을 수행하는 순서는 servicePriority에 기반한다.
+</center>
 
 # 2. Swift Async/Await을 활용한 Refactoring
 
+<center>
 ClientOperation은 Operation의 객체가 아닌 Custom Type으로 변경되었다.<br>
 
 변경됨에 따라 Operation의 속성 queuePriority는 TaskPriority타입으로 변경됨. 비동기 동작은 Task를 기준으로 이루어진다.<br>
