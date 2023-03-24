@@ -19,11 +19,15 @@ ClientOperation (Operation 객체) / ClientOperationQueue(Bank가 queue 생성 �
 ## 1-1. ClientOperation
 ClientOperation은 생성 시, 아래의 properties를 갖는다.
 
-  - waitingNumber: Int? // 대기번호
-  - grade (VVIP > VIP > normal 순으로 업무진행):  ClientGrade // 고객등급
-  - isLoadQualified (대출 심사 시 true여야만 업무 진행 가능): Bool? // 대출가능여부
-  - business(업무 종류에 따라 업무 소요시간이 상이함): BussinessType? // 고객의업무종류
-  - servicePriority(.high > .normal > .low 순으로 고객의 grade에 따라 정해진다): Operation.QueuePriority // 업무의 중요순위
+  ```swift
+
+  private(set) var waitingNumber: Int? // 대기번호
+  private(set) var grade:  ClientGrade // 고객등급 (VVIP > VIP > normal 순으로 업무진행)
+  private(set) var isLoadQualified: Bool? // 대출가능여부  (대출 심사 시 true여야만 업무 진행 가능)
+  private(set) var business: BussinessType? // 고객의업무종류 (업무 종류에 따라 업무 소요시간이 상이함)
+  private(set) var servicePriority: Operation.QueuePriority // 업무의 중요순위 (.high > .normal > .low 순으로 고객의 grade에 따라 정해진다)
+
+  ```
 
 OperationQueue에 들어간 Operation 객체가 수행할 작업은 override func main() 에 작성한다.
 
