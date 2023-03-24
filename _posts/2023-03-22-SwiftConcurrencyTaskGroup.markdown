@@ -13,12 +13,11 @@ categories: Operation Concurrency Task TaskGroup
 업무는 크게 예금 / 대출 로 분류되며 각각 진행시간이 다르다.
 </center>
 
+---
 # 1. 기존 Operation / OperationQueue를 활용한 구현
 
 <center>
 ClientOperation (Operation 객체) / ClientOperationQueue(Bank가 queue 생성 및 설정하여 활용한다)
-
-
 
 ### 1-1. ClientOperation
 
@@ -30,8 +29,6 @@ ClientOperation은 생성 시, 아래의 properties를 갖는다.
 - business(업무 종류에 따라 업무 소요시간이 상이함): BussinessType? // 고객의업무종류
 
 - servicePriority(.high > .normal > .low 순으로 고객의 grade에 따라 정해진다): Operation.QueuePriority // 업무의 중요순위
-
-
 
 OperationQueue에 들어간 Operation 객체가 수행할 작업은 override func main() 에 작성한다.
 
@@ -83,8 +80,6 @@ ClientOperation의 clientBusiness에 따라 Thread.sleep의 수행시간을 다�
   }
 ```
 
-
-
 ### 1-2. ClientOperationQueue
 
 ClientOperation의 main()을 수행할 ClientOperationQueue 설정 부분을 작성한다.
@@ -119,6 +114,7 @@ ClientOperation의 main()을 수행할 ClientOperationQueue 설정 부분을 작
 ClientOperation들은 동시수행이 가능한 3개의 thread에서 자리가 생기면 자신의 업무를 수행할 것이다.<br>이때 thread가 작업을 수행하는 순서는 servicePriority에 기반한다.
 </center>
 
+---
 # 2. Swift Async/Await을 활용한 Refactoring
 
 <center>
@@ -199,12 +195,9 @@ private func operateBusiness() async throws {
 - <b>1. execute > 2. operateBusiness > 3. handleDepositBusiness / handleLoadBusiness</b> 순으로 호출되는데, handleDepositBusiness / handleLoadBusiness 의 Task.sleep이 async 타입메서드이므로 execute와 operateBusiness 또한 async throws를 선언하여 비동기코드가 발생하는 영역이라는 표시를 해줘야한다.
 - 현재는 ClientOperation 내부에서 async throws를 연쇄적으로 작성해줘야하는 부분에 대해 이야기했지만, ClientOperation 외부에서 execute를 실행하는 곳에서도 async throws를 작성해줘야한다. 
 
-
 ### 2-2. TaskGroup 활용하기
 
 ClientOperation의 비동기 작업 내용을  async / await를 활용하여 refactor했다면, 다음은 ClientOperation이 동작하는 영역을 설정하는 곳을 refactor 해야한다. 기존에는 Bank에서 OperationQueue를 생성 및 설정하여 queue에 Operation을 추가하면 되었다.
-
-
 
 우선 Task와 Task Group은,
 
