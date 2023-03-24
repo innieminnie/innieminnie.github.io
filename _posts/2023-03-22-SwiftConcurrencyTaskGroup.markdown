@@ -5,6 +5,7 @@ date: 2023-03-22
 categories: Operation Concurrency Task TaskGroup
 ---
 ---
+
 <center>
 이전에 비동기프로그래밍을 학습하면서 진행했던 BankManager 프로젝트를 SwiftConcurrency를 적용한 방식으로 리팩토링해보았다.
 
