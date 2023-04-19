@@ -1,3 +1,12 @@
+---
+layout: post
+title: "Swift Actor란"
+date: 2023-04-18
+categories: Concurrency Actor RaceCondition
+---
+---
+
+
 ## Race Condition: 여러 곳에서 하나의 자원을 두고 경쟁하는 문제상황
 
 비동기 작업이 수행될 때 주의해야할 상황들이 존재하는데, 그 중 대표적인 경우는 Data race, Race Condition이다.<br>
@@ -88,7 +97,7 @@ actor Enrollment {
   private(set) var success = 0
   private(set) var fail = 0
   
-  func addCount() {
+  func enroll() {
     if availableSeats <= 0 {
       fail += 1
     } else {
@@ -154,8 +163,7 @@ Task {
   
           for _ in 0..<totalApplicants {
               taskGroup.addTask {
-                  await enrollment.addCount()
-              }
+                  await enrollment.enroll()
           }
       })
   
@@ -177,11 +185,11 @@ race condition 이 발생하지 않는다. <br>
 
 ```swift
 taskGroup.addTask {
-                  await enrollment.addCount()
+                  await enrollment.enroll()
 }
 ```
 
-부분을 보면 addCount는 async라고 명시하지 않았지만 메소드 호출 시 await 작성해야한다. 동시에 접근이 가능하면 어느 하나가 기다리는 상황이 발생하기 때문이다. Actor type을 활용하는 경우 이 enrollment.addCount() 라는 expression 자체를 async로 본다.<br>
+부분을 보면 enroll는 async라고 명시하지 않았지만 메소드 호출 시 await 작성해야한다. 동시에 접근이 가능하면 어느 하나가 기다리는 상황이 발생하기 때문이다. Actor type을 활용하는 경우 이 enrollment.enroll 라는 expression 자체를 async로 본다.<br>
 
 
 
