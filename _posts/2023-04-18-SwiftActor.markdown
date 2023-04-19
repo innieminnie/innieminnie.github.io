@@ -6,14 +6,13 @@ categories: Concurrency Actor RaceCondition
 ---
 ---
 
-
 ## Race Condition: 여러 곳에서 하나의 자원을 두고 경쟁하는 문제상황
 
 비동기 작업이 수행될 때 주의해야할 상황들이 존재하는데, 그 중 대표적인 경우는 Data race, Race Condition이다.<br>
 
- A가 가지고 있는 것을 B, C, D가 필요로 하는 상황을 가정해보자. A의 자원을 변경하지 않고 조회/확인 용도라면 문제가 발생하지 않는다. 하지만 A의 자원을 변경시켜야 한다면 문제 상황이 발생할 수 있다. <b>B, C, D에서 '동시에' A에 접근</b>하여 자원을 조작할 수 있기 때문이다. 예를 들어 <b>A: 5만원이 들어있는 금고, B,C,D: 금고에 접근할 수 있는 사람들</b>이라고 하자. A의 금고액은 항상 1명만 접근이 가능해야한다. B와 C가 동시에 5만원을 가져가려고 할 때, <b>1명만 접근할 수 있는 제한상태가 보장</b>되지 않으면 5만원이 있는데 10만원(A, B 각각 5만원)이 빠져나가는 오류가 발생할 수 있다.
+A가 가지고 있는 것을 B, C, D가 필요로 하는 상황을 가정해보자. A의 자원을 변경하지 않고 조회/확인 용도라면 문제가 발생하지 않는다. 하지만 A의 자원을 변경시켜야 한다면 문제 상황이 발생할 수 있다. <b>B, C, D에서 '동시에' A에 접근</b>하여 자원을 조작할 수 있기 때문이다.<br>
 
-
+예를 들어 <b>A: 5만원이 들어있는 금고, B,C,D: 금고에 접근할 수 있는 사람들</b>이라고 하자. A의 금고액은 항상 1명만 접근이 가능해야한다. B와 C가 동시에 5만원을 가져가려고 할 때, <b>1명만 접근할 수 있는 제한상태가 보장</b>되지 않으면 5만원이 있는데 10만원(A, B 각각 5만원)이 빠져나가는 오류가 발생할 수 있다.<br>
 
 ## Actor
 
@@ -28,9 +27,7 @@ GCD의 DispatchQueue를 활용할 때는 Serial Dispatch Queue나 Dispatch Semap
 
 
 
- 기존의 data race 대응 방식보다 이점은 type 자체가 thread-safe 하다는 점이다. 기존 방식에서는 class의 shared property에 접근할 때를 계속 주의하여 코드를 작성해야한다. Actor type은 자체가 shared property의 접근을 조절하고 있다.<br> 또한 기존방식은 compile time에 property의 data race condition 가능성을 파악할 수 없지만, Actor는 compile time checking이 가능하다.
-
-
+ 기존의 data race 대응 방식보다 이점은 type 자체가 thread-safe 하다는 점이다. 기존 방식에서는 class의 shared property에 접근할 때를 계속 주의하여 코드를 작성해야한다. Actor type은 자체가 shared property의 접근을 조절하고 있다.<br> 또한 기존방식은 compile time에 property의 data race condition 가능성을 파악할 수 없지만, Actor는 compile time checking이 가능하다.<br>
 
 ## Actor 사용 방식
 
