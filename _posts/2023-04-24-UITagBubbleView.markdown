@@ -34,7 +34,7 @@ categories: CAShapeLayer UIBezierPath UIAnimation animateKeyframes
 
 > UIBezierPath 와 CGMutablePath ? <br>
   여러 예시코드를 살펴보다 UIBezierPath를 사용하는 곳도 있고 CGMutablePath를 사용하는 곳도 있다. layer의 path는 CGPath이기에 CGMutablePath를 직접 할당하는 것이 더 적합한가 생각이 들었다.<br><br>
-  https://stackoverflow.com/questions/25457597/what-is-the-difference-between-cgpath-and-uibezierpath 에 따르면,<br>
+  <https://stackoverflow.com/questions/25457597/what-is-the-difference-between-cgpath-and-uibezierpath> 에 따르면,<br>
   CGPath는 CoreGraphics 라이브러리 소속이고 UIBezierPath는 UIKit 라이브러리 소속이다. UIBezierPath는 CG의 wrapper인 objc 객체이다.  그러므로 CGPath가 iOS 아키텍처 구조 상 보다 하위층에 속한다. 그래서 CoreGraphics에서 핸들링 가능하고 정교한 작업 수행이 가능하다. 비교적 상위층에 있는 UIBezierPath의 property 접근을 통해 기본적 선분그리기관련 작업이 가능하다.<br><br>
 
 TagBubbleView는 UIView의 위/아래 에 삼각형 shape을 추가해서 말풍선의 꼬리 부분을 만들었다. 위쪽 삼각형 관련 코드이다.
@@ -96,7 +96,7 @@ TabBubbleView의 layer에 sublayer로 upperShape을 추가한다<br>
   클로저 내의 내용을 진행하는데 걸리는 전체시간(withDuration)과 애니메이션 시작 전 지연시간(delay) 설정<br><br>
 - addKeyframe<br>
   애니메이션의 동작 순서에 따라 순차적으로 추가해준다. 주의 점은 파라미터다. addKeyframe은 animateKeyframes에서 설정한 duration에 대해 <b>상대적인 시작시간</b>을 기준으로 한다. withRelativeStartTime은 전체시간 대비 어느정도 지났을 때 시작하는지, relativeDuration은 이 시작시간을 기준으로 전체시간 대비 어느정도의 기간동안 진행해야하는지 적는다. <br><br>
-  
+
 ### 3. UILongPressGestureRecognizer
 TagBubbleView를 길게 눌러서 드래그 앤 드롭을 가능케한다.
 UILongPressGestureRecognizer의 state에 따른 처리가 가능하다.
